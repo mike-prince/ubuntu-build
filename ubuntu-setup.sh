@@ -9,19 +9,29 @@ main() {
   readonly ARGS="$@"
   readonly SCRIPTDIR=`dirname -- "$0"`
 
+  readonly DGREY="\033[0;30m"
+  readonly RED="\033[0;31m"
+  readonly NOCOLOR="\033[0m"
+
   # Prompt user for var data
-  echo "**********************************************************************"
-  echo "New user:"
+  printf "\n${DGREY}***********************************************${NOCOLOR}\n"
+  printf "\n${DGREY}***********************************************${NOCOLOR}\n"
+  printf "\n${DGREY}***********************************************${NOCOLOR}\n"
+
+  printf "\n${RED}SETUP USER${NOCOLOR}\n"
   read -p 'Username: ' uname
   read -s -p 'Password: ' pword
-  echo "\n"
-  echo "MySQL Root user:"
+
+  printf "\n${RED}SETUP MYSQL ROOT USER${NOCOLOR}\n"
   read -p 'MySQL root password: ' dbpword
-  echo "\n"
-  echo "MySQL Admin user:"
+
+  printf "\n${RED}SETUP MYSQL ADMIN USER${NOCOLOR}\n"
   read -p 'MySQL admin username: ' dbuser
   read -p 'MySQL admin password: ' dbuserpword
-  echo "**********************************************************************"
+
+  printf "\n${DGREY}***********************************************${NOCOLOR}\n"
+  printf "\n${DGREY}***********************************************${NOCOLOR}\n"
+  printf "\n${DGREY}***********************************************${NOCOLOR}\n"
 
 
   # Secure SSH
