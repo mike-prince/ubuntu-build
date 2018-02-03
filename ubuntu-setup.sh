@@ -3,6 +3,21 @@
 # Exit on error
 set -e
 
+divider() {
+  readonly CHAR=`printf '_%.0s' {1..100}`
+  readonly DIV="${DGREY}${CHAR}${NOCOLOR}"
+
+  printf "\n"
+  printf "${DIV}\n"
+  printf "${DIV}\n"
+  printf "${DIV}\n"
+  printf "\n"
+}
+
+notice() {
+  printf "\n${RED}$@${NOCOLOR}\n"
+}
+
 main() {
 
   # Vars
@@ -14,24 +29,20 @@ main() {
   readonly NOCOLOR="\033[0m"
 
   # Prompt user for var data
-  printf "\n${DGREY}***********************************************${NOCOLOR}\n"
-  printf "${DGREY}***********************************************${NOCOLOR}\n"
-  printf "${DGREY}***********************************************${NOCOLOR}\n"
+  divider
 
-  printf "\n${RED}USER${NOCOLOR}\n"
+  notice USER
   read -p 'Username: ' uname
   read -s -p 'Password: ' pword
 
-  printf "\n\n${RED}MYSQL ROOT${NOCOLOR}\n"
+  notice MYSQL ROOT
   read -s -p 'MySQL root password: ' dbpword
 
-  printf "\n\n${RED}MYSQL ADMIN${NOCOLOR}\n"
+  notice MYSQL ADMIN
   read -p 'MySQL admin username: ' dbuser
   read -s -p 'MySQL admin password: ' dbuserpword
 
-  printf "\n${DGREY}***********************************************${NOCOLOR}\n"
-  printf "${DGREY}***********************************************${NOCOLOR}\n"
-  printf "${DGREY}***********************************************${NOCOLOR}\n"
+  divider
 
 
   # Secure SSH
@@ -58,7 +69,8 @@ main() {
   echo "vm.swappiness=10" >> /etc/sysctl.conf
 
   # Set locale
-  printf 'LANG="en_GB.UTF-8"\nLC_ALL="en_GB.UTF-8"\nLANGUAGE="en_GB.UTF-8"' >> /etc/default/locale
+  printf 'LANG="en_GB.UTF-8"\nLANGUAGE="en_GB.UTF-8"' > /etc/default/locale
+  . /etc/default/locale
 
   # Create user account
   adduser --disabled-password --gecos "" $uname
