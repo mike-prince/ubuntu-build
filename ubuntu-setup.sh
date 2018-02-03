@@ -58,7 +58,11 @@ main() {
   echo "vm.swappiness=10" >> /etc/sysctl.conf
 
   # Set locale
-  update-locale LANG=en_GB.UTF-8
+  cat <<EOT >> /etc/default/locale
+LANG="en_US.UTF-8"
+LC_ALL="en_US.UTF-8"
+LANGUAGE="en_US.UTF-8"
+EOT
 
   # Create user account
   adduser --disabled-password --gecos "" $uname
