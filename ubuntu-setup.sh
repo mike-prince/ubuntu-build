@@ -18,16 +18,16 @@ main() {
   printf "${DGREY}***********************************************${NOCOLOR}\n"
   printf "${DGREY}***********************************************${NOCOLOR}\n"
 
-  printf "\n${RED}SETUP USER${NOCOLOR}\n"
+  printf "\n${RED}USER${NOCOLOR}\n"
   read -p 'Username: ' uname
   read -s -p 'Password: ' pword
 
-  printf "\n${RED}SETUP MYSQL ROOT USER${NOCOLOR}\n"
-  read -p 'MySQL root password: ' dbpword
+  printf "\n\n${RED}MYSQL ROOT${NOCOLOR}\n"
+  read -s -p 'MySQL root password: ' dbpword
 
-  printf "\n${RED}SETUP MYSQL ADMIN USER${NOCOLOR}\n"
+  printf "\n\n${RED}MYSQL ADMIN${NOCOLOR}\n"
   read -p 'MySQL admin username: ' dbuser
-  read -p 'MySQL admin password: ' dbuserpword
+  read -s -p 'MySQL admin password: ' dbuserpword
 
   printf "\n${DGREY}***********************************************${NOCOLOR}\n"
   printf "${DGREY}***********************************************${NOCOLOR}\n"
