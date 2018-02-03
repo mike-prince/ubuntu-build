@@ -47,6 +47,9 @@ main() {
   echo "/swapfile   none    swap    sw    0   0" >> /etc/fstab
   echo "vm.swappiness=10" >> /etc/sysctl.conf
 
+  # Set locale
+  update-locale LANG=en_GB.UTF-8
+
   # Create user account
   adduser --disabled-password --gecos "" $uname
   echo "${uname}:${pword}" | sudo chpasswd
