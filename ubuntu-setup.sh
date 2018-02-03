@@ -15,8 +15,8 @@ main() {
 
   # Prompt user for var data
   printf "\n${DGREY}***********************************************${NOCOLOR}\n"
-  printf "\n${DGREY}***********************************************${NOCOLOR}\n"
-  printf "\n${DGREY}***********************************************${NOCOLOR}\n"
+  printf "${DGREY}***********************************************${NOCOLOR}\n"
+  printf "${DGREY}***********************************************${NOCOLOR}\n"
 
   printf "\n${RED}SETUP USER${NOCOLOR}\n"
   read -p 'Username: ' uname
@@ -30,8 +30,8 @@ main() {
   read -p 'MySQL admin password: ' dbuserpword
 
   printf "\n${DGREY}***********************************************${NOCOLOR}\n"
-  printf "\n${DGREY}***********************************************${NOCOLOR}\n"
-  printf "\n${DGREY}***********************************************${NOCOLOR}\n"
+  printf "${DGREY}***********************************************${NOCOLOR}\n"
+  printf "${DGREY}***********************************************${NOCOLOR}\n"
 
 
   # Secure SSH
