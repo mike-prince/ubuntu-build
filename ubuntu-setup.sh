@@ -7,7 +7,7 @@ main() {
 
   # Vars
   readonly ARGS="$@"
-  readonly SCRIPTDIR=`dirname -- "$0"`
+  readonly URL="https://raw.githubusercontent.com/mikeprince13/ubuntu-build/master/config"
 
   readonly DGREY="\033[0;30m"
   readonly RED="\033[0;31m"
@@ -72,7 +72,7 @@ main() {
 
   # Install Fail2Ban
   apt install -y fail2ban
-  cp $SCRIPTDIR/config/fail2ban.conf /etc/fail2ban/jail.local
+  curl ${URL}/fail2ban.conf -o /etc/fail2ban/jail.local
 
   # Install MariaDB
   apt install -y mariadb-server
@@ -93,8 +93,8 @@ main() {
   ufw allow 443/tcp
   sed -i 's/# server_tokens off/server_tokens off/' /etc/nginx/nginx.conf
   echo 'fastcgi_param HTTP_PROXY "";' >> /etc/nginx/fastcgi.conf;
-  cp $SCRIPTDIR/config/nginx-sites.conf /etc/nginx/sites-available/default-ssl.conf
-  cp $SCRIPTDIR/config/default-index.html /var/www/html/index.html
+  curl ${URL}/nginx-sites.conf -o /etc/nginx/sites-available/default-ssl.conf
+  curl ${URL}/default-index.html -o /var/www/html/index.html
   mkdir /srv/www
 
   # Get real IP from CloudFlare
@@ -124,12 +124,12 @@ main() {
   add-apt-repository ppa:certbot/certbot
   apt update
   apt install -y python-certbot-nginx
-  cp $SCRIPTDIR/config/certbot-renew.cron /etc/cron.daily/cerbot-renew
+  curl ${URL}/certbot-renew.cron -o /etc/cron.daily/cerbot-renew
   chmod +x /etc/cron.daily/cerbot-renew
 
   # Setup SSL
   openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
-  cp $SCRIPTDIR/config/ssl-params.conf /etc/nginx/snippets/ssl-params.conf
+  curl ${URL}/ssl-params.conf -o /etc/nginx/snippets/ssl-params.conf
 
   # Install image optimizers
   apt install -y jpegoptim
