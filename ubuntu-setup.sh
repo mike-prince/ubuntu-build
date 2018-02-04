@@ -5,7 +5,7 @@ set -e
 
 # Output a horizontal line
 divider() {
-  readonly CHAR=`printf '_%.0s' {1..100}`
+  CHAR=`printf '_%.0s' {1..100}`
   readonly DIV="${DGREY}${CHAR}${NOCOLOR}"
 
   printf "\n"
