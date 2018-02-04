@@ -5,8 +5,8 @@ set -e
 
 # Output a horizontal line
 divider() {
-  readonly CHAR=`printf '_%.0s' {1..100}`
-  readonly DIV="${DGREY}${CHAR}${NOCOLOR}"
+  CHAR=`printf '_%.0s' {1..100}`
+  DIV="${DGREY}${CHAR}${NOCOLOR}"
 
   printf "\n"
   printf "${DIV}\n"
@@ -64,7 +64,7 @@ main() {
   # Full upgrade
   notice UPGRADING
   apt update
-  apt full-upgrade -y
+  apt full-upgrade -y --force-yes -qq
   apt autoremove -y
   apt-get autoclean
 
