@@ -25,9 +25,9 @@ main() {
 
   # Vars
   readonly ARGS="$@"
-  readonly URL="https://raw.githubusercontent.com/mikeprince13/ubuntu-build/master/config"
+  URL="https://raw.githubusercontent.com/mikeprince13/ubuntu-build/master/config"
   # Use the following URL var if running all files locally instead of from Github
-  readonly URL=`dirname -- "$0/config"`
+  #URL=`dirname -- "$0/config"`
 
   readonly DGREY="\033[0;30m"
   readonly RED="\033[0;31m"
