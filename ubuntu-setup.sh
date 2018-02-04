@@ -8,11 +8,7 @@ divider() {
   CHAR=`printf '_%.0s' {1..100}`
   DIV="${DGREY}${CHAR}${NOCOLOR}"
 
-  printf "\n"
-  printf "${DIV}\n"
-  printf "${DIV}\n"
-  printf "${DIV}\n"
-  printf "\n"
+  printf "\n${DIV}\n${DIV}\n${DIV}\n\n"
 }
 
 # Output a notice / section title
