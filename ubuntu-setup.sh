@@ -5,8 +5,8 @@ set -e
 
 # Output a horizontal line
 divider() {
-  CHAR=`printf '_%.0s' {1..100}`
-  DIV="${DGREY}${CHAR}${NOCOLOR}"
+  readonly CHAR=`printf '_%.0s' {1..100}`
+  readonly DIV="${DGREY}${CHAR}${NOCOLOR}"
 
   printf "\n"
   printf "${DIV}\n"
@@ -26,6 +26,8 @@ main() {
   # Vars
   readonly ARGS="$@"
   readonly URL="https://raw.githubusercontent.com/mikeprince13/ubuntu-build/master/config"
+  # Use the following URL var if running all files locally instead of from Github
+  readonly URL=`dirname -- "$0/config"`
 
   readonly DGREY="\033[0;30m"
   readonly RED="\033[0;31m"
