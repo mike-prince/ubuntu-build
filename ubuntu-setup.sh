@@ -64,7 +64,7 @@ main() {
   # Full upgrade
   notice "UPGRADING"
   apt update
-  apt full-upgrade -y --force-yes -qq
+  apt full-upgrade -y
   apt autoremove -y
   apt-get autoclean
 
