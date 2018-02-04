@@ -96,6 +96,7 @@ main() {
   # Install MariaDB
   notice "INSTALLING MARIADB"
   apt install -y mariadb-server
+  systemctl start mariadb
   # Replicate mysql_secure_installation
   echo "Securing MySQL"
   mysql -e "UPDATE mysql.user SET Password=PASSWORD('${dbpword}') WHERE User='root';"
