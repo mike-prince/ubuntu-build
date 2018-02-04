@@ -27,7 +27,7 @@ Run the following to run the install scripts directly from Github
 bash <(curl -s https://raw.githubusercontent.com/mikeprince13/ubuntu-build/master/ubuntu-setup.sh)
 ```
 
-# Local Install
+### Local Install
 
 - Download this repo
 - Uncomment the following in ubuntu-setup.sh
