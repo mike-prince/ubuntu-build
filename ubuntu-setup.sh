@@ -146,7 +146,7 @@ main() {
 
   # Install certbot
   notice "INSTALLING CERTBOT"
-  add-apt-repository ppa:certbot/certbot
+  add-apt-repository ppa:certbot/certbot -y
   apt update
   apt install -y python-certbot-nginx
   curl ${URL}/certbot-renew.cron -o /etc/cron.daily/cerbot-renew
