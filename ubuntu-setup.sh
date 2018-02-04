@@ -3,6 +3,7 @@
 # Exit on error
 set -e
 
+# Output a horizontal line
 divider() {
   readonly CHAR=`printf '_%.0s' {1..100}`
   readonly DIV="${DGREY}${CHAR}${NOCOLOR}"
@@ -14,7 +15,9 @@ divider() {
   printf "\n"
 }
 
+# Output a notice / section title
 notice() {
+  divider
   printf "\n${RED}$@${NOCOLOR}\n"
 }
 
@@ -29,8 +32,6 @@ main() {
   readonly NOCOLOR="\033[0m"
 
   # Prompt user for var data
-  divider
-
   notice USER
   read -p 'Username: ' uname
   read -s -p 'Password: ' pword
@@ -41,26 +42,34 @@ main() {
   notice MYSQL ADMIN
   read -p 'MySQL admin username: ' dbuser
   read -s -p 'MySQL admin password: ' dbuserpword
-
   divider
 
-
   # Secure SSH
+  notice SECURING SSH
   sed -i 's/X11Forwarding yes/X11Forwarding no/' /etc/ssh/sshd_config
   sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
   sed -i 's/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/' /etc/ssh/sshd_config
 
   # Enable UFW, allow SSH
+  notice ENABLING UFW
   ufw allow 22/tcp
   ufw --force enable
 
+  # Set locale
+  notice SETTING LOCALE
+  locale-gen en_GB.UTF-8
+  printf 'LANG="en_GB.UTF-8"' > /etc/default/locale
+  . /etc/default/locale
+
   # Full upgrade
+  notice UPGRADING
   apt update
   apt full-upgrade -y
   apt autoremove -y
   apt-get autoclean
 
   # Enable Swap, size = 1Gb, swappiness = 10
+  notice CREATING SWAP
   fallocate -l 1G /swapfile
   chmod 600 /swapfile
   mkswap /swapfile
@@ -68,11 +77,8 @@ main() {
   echo "/swapfile   none    swap    sw    0   0" >> /etc/fstab
   echo "vm.swappiness=10" >> /etc/sysctl.conf
 
-  # Set locale
-  printf 'LANG="en_GB.UTF-8"\nLANGUAGE="en_GB.UTF-8"' > /etc/default/locale
-  . /etc/default/locale
-
   # Create user account
+  notice CREATING USER ACCOUNT
   adduser --disabled-password --gecos "" $uname
   echo "${uname}:${pword}" | sudo chpasswd
   usermod -aG sudo $uname
@@ -83,10 +89,12 @@ main() {
   chown -R $uname:$uname /home/$uname/.ssh
 
   # Install Fail2Ban
+  notice INSTALLING FAIL2BAN
   apt install -y fail2ban
   curl ${URL}/fail2ban.conf -o /etc/fail2ban/jail.local
 
   # Install MariaDB
+  notice INSTALLING MARIADB
   apt install -y mariadb-server
   # Replicate mysql_secure_installation
   echo "Securing MySQL"
@@ -100,6 +108,7 @@ main() {
   mysql -e "FLUSH PRIVILEGES;"
 
   # Install Nginx
+  notice INSTALLING NGINX
   apt install -y nginx
   ufw allow 80/tcp
   ufw allow 443/tcp
@@ -110,6 +119,7 @@ main() {
   mkdir /srv/www
 
   # Get real IP from CloudFlare
+  notice CONFIGURING NGINX FOR CLOUDFLARE
   touch /etc/nginx/snippets/cloudflare.conf
   bash -c "echo '# CloudFlare IPs' > /etc/nginx/snippets/cloudflare.conf"
   bash -c "curl https://www.cloudflare.com/ips-v4 >> /etc/nginx/snippets/cloudflare.conf"
@@ -120,19 +130,23 @@ main() {
   bash -c "echo 'real_ip_header CF-Connecting-IP;' >> /etc/nginx/snippets/cloudflare.conf"
 
   # Install PHP
+  notice INSTALLING PHP
   add-apt-repository -y ppa:ondrej/php
   apt update
   apt install -y php7.1-fpm php7.1-curl php7.1-gd php7.1-json php7.1-mbstring php7.1-mcrypt php7.1-mysql php7.1-xml php7.1-zip
 
   # Install Sendmail
+  notice INSTALLING SENDMAIL
   apt install -y sendmail
 
   # Git
+  notice INSTALLING GIT
   apt install -y git git-core
   mkdir /srv/git
   chown $uname:$uname /srv/git
 
   # Install certbot
+  notice INSTALLING CERTBOT
   add-apt-repository ppa:certbot/certbot
   apt update
   apt install -y python-certbot-nginx
@@ -140,6 +154,7 @@ main() {
   chmod +x /etc/cron.daily/cerbot-renew
 
   # Setup SSL
+  notice CONFIGURING SSL CERTS
   openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
   curl ${URL}/ssl-params.conf -o /etc/nginx/snippets/ssl-params.conf
 
@@ -152,6 +167,8 @@ main() {
 
   # Truncate logs
   find /var/log -type f -exec truncate -c -s0 {} \;
+
+  notice SETUP COMPLETE
 }
 
 main
